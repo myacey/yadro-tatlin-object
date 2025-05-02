@@ -2,7 +2,7 @@
 
 ## ASCII Pet
 
-> [!INFO]
+> [!NOTE]
 > Приложение для загрузки и просмотра изображений питомцев в ASCII формате.
 
 Для запуска используйте `make up` или `docker compose -f build/docker-compose.yml up --build`
