@@ -1,0 +1,20 @@
+services:
+  backend:
+    build:
+      context: ..
+      dockerfile: build/Dockerfile.backend
+    image: ascii-pet-backend:latest
+    container_name: ascii-pet-backend
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: build/Dockerfile.frontend
+    image: ascii-pet-frontend:latest
+    container_name: ascii-pet-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend

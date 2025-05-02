@@ -1,0 +1,27 @@
+FROM golang:1.24-alpine AS builder
+
+RUN apk add --no-cache git ca-certificates
+
+WORKDIR /app
+COPY backend/go.mod backend/go.sum ./
+RUN go mod download
+
+COPY backend ./
+
+# для прода я бы использовал GIN_MODE=release, но в задании: "Оптимизация или отдельная сборка для продакшен среды не требуется"
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o pet-server ./cmd/main.go
+
+FROM alpine:latest
+
+WORKDIR /etc/pet-server
+
+COPY --from=builder /app/pet-server /usr/local/bin/pet-server
+
+RUN mkdir configs
+COPY backend/configs/config.yaml configs/config.yaml
+COPY backend/configs/oapi.yaml   configs/oapi.yaml
+
+RUN mkdir db/
+EXPOSE 8000
+
+CMD ["pet-server"]

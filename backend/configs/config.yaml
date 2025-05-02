@@ -1,0 +1,6 @@
+repository:
+  data_dir: "./db/"
+  filename: "pet.json"
+
+httpserver:
+  listen: ":8000"
